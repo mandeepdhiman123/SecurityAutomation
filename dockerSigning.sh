@@ -205,7 +205,7 @@ do
     echo "Adding delegation key release failed"
     return 0
   fi
-  if notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} delegation add -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} targets/user --all-paths ${DELEGATION_KEYS_DIR}/${DOMAIN_NAME}-delegation-public.crt; then
+  if notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} delegation add -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} targets/mosip --all-paths ${DELEGATION_KEYS_DIR}/${DOMAIN_NAME}-delegation-public.crt; then
     echo "Added delegation key for user successful"
   else
     echo "Adding delegation key for user failed"
