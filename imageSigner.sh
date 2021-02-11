@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 
 #Default Parameters for MOSIP. Can be changes accordingly
-TRUST_KEYS_DIR="./.docker-mosip/trust"
-DELEGATION_KEYS_DIR="./delegation_keys"
-DOMAIN_NAME="mosipdev"
-NOTARY_SERVER="https://notary.docker.io"
-HUB_URL="docker.io"
-REPO_ID="mosipdev"
-TAG_VERSION="1.1.4"
-PASS_FILE=passphrases.properties
-REPO_FILE=./repo-name.txt
+. ./all.properties
+
+TRUST_KEYS_DIR=$(echo $trustkeydir)
+DELEGATION_KEYS_DIR=$(echo $delegationkeydir)
+DOMAIN_NAME=$(echo $domainname)
+NOTARY_SERVER=$(echo $notaryserver)
+HUB_URL=$(echo $huburl)
+REPO_ID=$(echo $repoid)
+TAG_VERSION=$(echo $tagversion)
+PASS_FILE=$(echo $passfile)
+REPO_FILE=$(echo $repofile)
 HASH_REGEX="(?<=sha256:).*(?=size)"
 SIZE_REGEX="(?<=size:).*"
 
@@ -55,14 +57,18 @@ do
   IMAGE_INFO=$(docker pull ${HUB_URL}/${REPO_ID}/${REPO_NAME}:${TAG_VERSION} | grep "digest: sha256")
   echo ${IMAGE_INFO}
 
-  TAG_VERSION=$(echo -n ${IMAGE_INFO} | grep -o -P $HASH_REGEX)
-  echo ${TAG_VERSION}
+  IMAGE_HASH=$(echo -n ${IMAGE_INFO} | grep -o -P $HASH_REGEX)
+  echo ${IMAGE_HASH}
 
   IMAGE_SIZE=$(echo -n ${IMAGE_INFO} | grep -o -P $SIZE_REGEX)
   echo ${IMAGE_SIZE}
 
-  notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} -D addhash -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} ${TAG_VERSION} ${IMAGE_SIZE} --sha256 ${IMAGE_HASH} -r targets/mosip
-
+  if notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} -D addhash -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} ${TAG_VERSION} ${IMAGE_SIZE} --sha256 ${IMAGE_HASH} -r targets/mosip; then
+    echo "Image signed successfully"
+  else
+    echo "Image signing failed"
+    return 0
+  fi
 done < "$REPO_FILE"
 
 #notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} -D addhash -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} ${TAG_VERSION} ${IMAGE_SIZE} --sha256 ${IMAGE_HASH} -r targets/mosip

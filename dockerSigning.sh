@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
 #Default Parameters for MOSIP. Can be changes accordingly
-TRUST_KEYS_DIR="./.docker-mosip/trust"
-DELEGATION_KEYS_DIR="./delegation_keys"
-DOMAIN_NAME="mosipdev"
-SUBJ="/C=IN/ST=KAR/L=Bangalore/O=MOSIP/CN=mosipdev/OU=MOSIP"
-NOTARY_SERVER="https://notary.docker.io"
-HUB_URL="docker.io"
-REPO_ID="mosipdev"
-PASS_FILE=passphrases.properties
-REPO_FILE=./repo-name.txt
+. ./all.properties
 
+TRUST_KEYS_DIR=$(echo $trustkeydir)
+DELEGATION_KEYS_DIR=$(echo $delegationkeydir)
+DOMAIN_NAME=$(echo $domainname)
+SUBJ=$(echo $subj)
+NOTARY_SERVER=$(echo $notaryserver)
+HUB_URL=$(echo $huburl)
+REPO_ID=$(echo $repoid)
+PASS_FILE=$(echo $passfile)
+REPO_FILE=$(echo $repofile)
 
 echo -e "\e[31m\e[1m\e[5m**NOTE: \e[25m\e[21m This script is to initiate docker signing for all the repositories linked to one organization. \
 The commands running in this script will generate a set of keys for all the repositories for current organization. Request you please take a backup all the directory \
