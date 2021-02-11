@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+exec >>logfile_imagesigner
+
 #Default Parameters for MOSIP. Can be changes accordingly
 . ./all.properties
 
@@ -54,7 +56,7 @@ while IFS= read -r line
 do
   REPO_NAME=$line
   docker pull ${HUB_URL}/${REPO_ID}/${REPO_NAME}:${TAG_VERSION}
-  IMAGE_INFO=$(docker pull ${HUB_URL}/${REPO_ID}/${REPO_NAME}:${TAG_VERSION} | grep "digest: sha256")
+  IMAGE_INFO=$(docker push ${HUB_URL}/${REPO_ID}/${REPO_NAME}:${TAG_VERSION} | grep "digest: sha256")
   echo ${IMAGE_INFO}
 
   IMAGE_HASH=$(echo -n ${IMAGE_INFO} | grep -o -P $HASH_REGEX)

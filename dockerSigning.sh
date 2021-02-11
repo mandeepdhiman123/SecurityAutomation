@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+exec >>logfile_keygenerator
+
 #Default Parameters for MOSIP. Can be changes accordingly
 . ./all.properties
 

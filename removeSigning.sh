@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+exec >>logfile_removesigner
+
 . ./all.properties
 
 TRUST_KEYS_DIR=$(echo $trustkeydir)
