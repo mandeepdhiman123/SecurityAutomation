@@ -3,12 +3,11 @@
 #Default Parameters for MOSIP. Can be changes accordingly
 TRUST_KEYS_DIR="./.docker-mosip/trust"
 DELEGATION_KEYS_DIR="./delegation_keys"
-DOMAIN_NAME="mosipid"
+DOMAIN_NAME="mosipdev"
 SUBJ="/C=IN/ST=KAR/L=Bangalore/O=MOSIP/CN=mosipdev/OU=MOSIP"
 NOTARY_SERVER="https://notary.docker.io"
 HUB_URL="docker.io"
-REPO_ID="mandeepdhiman90"
-#REPO_NAME=""
+REPO_ID="mosipdev"
 PASS_FILE=passphrases.properties
 REPO_FILE=./repo-name.txt
 
@@ -218,6 +217,8 @@ do
     return 0
   fi
 done < "$REPO_FILE"
+
+notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} key import ${DELEGATION_KEYS_DIR}/${DOMAIN_NAME}-delegation-private.key  --roles=targets/mosip
 
 echo -e "\n***************Zip all data*******************\n"
 CURRENT_DATE=$(date +'%d-%m-%Y_%H:%M')
