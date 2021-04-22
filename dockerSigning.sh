@@ -221,7 +221,7 @@ do
   fi
 done < "$REPO_FILE"
 
-notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} key import ${DELEGATION_KEYS_DIR}/${DOMAIN_NAME}-delegation-private.key  --roles=targets/mosip
+notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} key import ${DELEGATION_KEYS_DIR}/${DOMAIN_NAME}-delegation-private.key  --role targets/mosip
 
 echo -e "\n***************Zip all data*******************\n"
 CURRENT_DATE=$(date +'%d-%m-%Y_%H:%M')

@@ -61,3 +61,4 @@ print
 websub-service
 mock-abis
 artifactory-server
+sandbox-config-server
