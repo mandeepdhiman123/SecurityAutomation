@@ -71,6 +71,8 @@ do
     echo "Image signing failed"
     return 0
   fi
+
+  docker rmi ${REPO_NAME}
 done < "$REPO_FILE"
 
 #notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} -D addhash -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} ${TAG_VERSION} ${IMAGE_SIZE} --sha256 ${IMAGE_HASH} -r targets/mosip
