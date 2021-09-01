@@ -2,7 +2,7 @@
 
 exec >>logfile_keygenerator
 
-#Default Parameters for MOSIP. Can be changes accordingly
+#Default Parameters. Can be changes accordingly
 . ./all.properties
 
 TRUST_KEYS_DIR=$(echo $trustkeydir)
@@ -207,7 +207,7 @@ do
     echo "Adding delegation key release failed"
     return 0
   fi
-  if notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} delegation add -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} targets/mosip --all-paths ${DELEGATION_KEYS_DIR}/${DOMAIN_NAME}-delegation-public.crt; then
+  if notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} delegation add -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} targets/test --all-paths ${DELEGATION_KEYS_DIR}/${DOMAIN_NAME}-delegation-public.crt; then
     echo "Added delegation key for user successful"
   else
     echo "Adding delegation key for user failed"
@@ -221,7 +221,7 @@ do
   fi
 done < "$REPO_FILE"
 
-notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} key import ${DELEGATION_KEYS_DIR}/${DOMAIN_NAME}-delegation-private.key  --role targets/mosip
+notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} key import ${DELEGATION_KEYS_DIR}/${DOMAIN_NAME}-delegation-private.key  --role targets/test
 
 echo -e "\n***************Zip all data*******************\n"
 CURRENT_DATE=$(date +'%d-%m-%Y_%H:%M')
