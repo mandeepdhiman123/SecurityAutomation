@@ -17,7 +17,7 @@ REPO_FILE=$(echo $repofile)
 
 while IFS= read -r line; do
   REPO_NAME=$line
-  if notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} remove -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} -r targets/mosip; then
+  if notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} remove -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} -r targets/test; then
     echo "sign removed successfully"
   else
     echo "sign removal failed"
