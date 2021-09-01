@@ -2,7 +2,7 @@
 
 exec >>logfile_imagesigner
 
-#Default Parameters for MOSIP. Can be changes accordingly
+#Default Parameters. Can be changes accordingly
 . ./all.properties
 
 TRUST_KEYS_DIR=$(echo $trustkeydir)
@@ -65,7 +65,7 @@ do
   IMAGE_SIZE=$(echo -n ${IMAGE_INFO} | grep -o -P $SIZE_REGEX)
   echo ${IMAGE_SIZE}
 
-  if notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} -D addhash -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} ${TAG_VERSION} ${IMAGE_SIZE} --sha256 ${IMAGE_HASH} -r targets/mosip; then
+  if notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} -D addhash -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} ${TAG_VERSION} ${IMAGE_SIZE} --sha256 ${IMAGE_HASH} -r targets/test; then
     echo "Image signed successfully"
   else
     echo "Image signing failed"
@@ -75,4 +75,4 @@ do
   docker rmi ${REPO_NAME}
 done < "$REPO_FILE"
 
-#notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} -D addhash -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} ${TAG_VERSION} ${IMAGE_SIZE} --sha256 ${IMAGE_HASH} -r targets/mosip
+#notary -s ${NOTARY_SERVER} -d ${TRUST_KEYS_DIR} -D addhash -p ${HUB_URL}/${REPO_ID}/${REPO_NAME} ${TAG_VERSION} ${IMAGE_SIZE} --sha256 ${IMAGE_HASH} -r targets/test
